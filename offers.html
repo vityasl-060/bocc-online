@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>BoCC — Local Offers Test</title>
+
+  <style>
+    :root{
+      --bgA:#070814; --bgB:#0b1022;
+      --card: rgba(255,255,255,.07);
+      --stroke: rgba(255,255,255,.12);
+      --text:#eef1ff;
+      --muted: rgba(238,241,255,.68);
+      --org:#ff8a2a;
+      --shadow: 0 22px 70px rgba(0,0,0,.45);
+      --r2: 22px;
+      --sans: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial;
+      --max: 1120px;
+    }
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family: var(--sans);
+      color: var(--text);
+      background:
+        radial-gradient(1200px 800px at 12% 12%, rgba(138,77,255,.20), transparent 60%),
+        radial-gradient(900px 700px at 92% 22%, rgba(51,214,255,.16), transparent 58%),
+        radial-gradient(900px 700px at 40% 110%, rgba(255,138,42,.10), transparent 62%),
+        linear-gradient(180deg, var(--bgA), var(--bgB));
+      overflow-x:hidden;
+    }
+    .wrap{
+      width: min(var(--max), calc(100% - 40px));
+      margin: 20px auto 34px;
+    }
+    .bar{
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+      padding: 12px 14px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.03);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 12px 40px rgba(0,0,0,.25);
+    }
+    .bar b{ font-size: 14px; }
+    .bar small{ color: rgba(238,241,255,.55); }
+
+    .state{
+      margin-top: 14px;
+      padding: 14px 14px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.18);
+      color: rgba(238,241,255,.72);
+      white-space: pre-wrap;
+    }
+    .grid{
+      margin-top: 14px;
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    @media (max-width: 980px){ .grid{ grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 620px){ .grid{ grid-template-columns: 1fr; } }
+
+    .offer{
+      border-radius: var(--r2);
+      background: var(--card);
+      border: 1px solid rgba(255,255,255,.10);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      position:relative;
+    }
+    .offer .in{ padding: 16px; }
+    .top{ display:flex; gap:12px; align-items:center; }
+    .logo{
+      width: 54px; height: 54px;
+      border-radius: 16px;
+      object-fit: contain;
+      background: rgba(0,0,0,.18);
+      border: 1px solid rgba(255,255,255,.10);
+      padding: 6px;
+      flex: 0 0 auto;
+    }
+    .meta{ min-width: 0; }
+    .id{ font-weight: 800; font-size: 13px; }
+    .pppc{
+      margin-top: 4px;
+      font-size: 12.5px;
+      color: rgba(238,241,255,.70);
+      overflow:hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .btn{
+      margin-top: 12px;
+      width:100%;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      gap:10px;
+      text-decoration:none;
+      border-radius: 16px;
+      padding: 12px 14px;
+      color: rgba(255,255,255,.95);
+      background: linear-gradient(135deg, var(--org), #ffb01a);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: .3px;
+    }
+    .warn{
+      margin-top: 10px;
+      font-size: 12px;
+      color: rgba(238,241,255,.60);
+    }
+    .warn a{ color: rgba(238,241,255,.78); text-decoration:none; }
+    .warn a:hover{ text-decoration:underline; }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="bar">
+      <div>
+        <b>BoCC — Local Offers Test</b><br>
+        <small>Відкрито локально з диска (file://). Дані тягнемо з воркера.</small>
+      </div>
+      <div>
+        <small id="count">—</small>
+      </div>
+    </div>
+
+    <div id="state" class="state">Натисни “Load”, щоб завантажити офери.</div>
+
+    <div style="margin-top:10px; display:flex; gap:10px; flex-wrap:wrap;">
+      <button id="loadBtn" style="padding:10px 14px;border-radius:12px;border:0;cursor:pointer;font-weight:800;">
+        Load
+      </button>
+      <button id="pingBtn" style="padding:10px 14px;border-radius:12px;border:0;cursor:pointer;">
+        Debug (print JSON)
+      </button>
+    </div>
+
+    <div id="grid" class="grid"></div>
+  </div>
+
+  <script>
+    // ✅ ВСТАВ СЮДИ РЕАЛЬНИЙ URL ВОРКЕРА:
+    // 1) якщо воркер на bocc.online: "https://bocc.online/api/offers"
+    // 2) якщо воркер на workers.dev: "https://offers-json.your.workers.dev/api/offers"
+    const API_URL = "https://list-app.slvitya.workers.dev/api/offers";
+
+    const WARNING_URL = "https://bocc.in.ua/warning";
+
+    function esc(s){
+      return String(s).replace(/[&<>"']/g, m => ({
+        '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+      }[m]));
+    }
+
+    function render(offers){
+      const grid = document.getElementById("grid");
+      const count = document.getElementById("count");
+      grid.innerHTML = "";
+
+      count.textContent = "Offers: " + offers.length;
+
+      for (const o of offers){
+        const id = o.id || "";
+        const logo = o.logo || "";
+        const pppc = o.pppc || "";
+        const go = o.go_url || ("https://go.bocc.online/" + encodeURIComponent(id));
+
+        const card = document.createElement("div");
+        card.className = "offer";
+
+        card.innerHTML = `
+          <div class="in">
+            <div class="top">
+              <img class="logo" src="${esc(logo)}" alt="logo" loading="lazy">
+              <div class="meta">
+                <div class="id">ID: ${esc(id)}</div>
+                ${pppc ? `<div class="pppc">${esc(pppc)}</div>` : ``}
+              </div>
+            </div>
+
+            <a class="btn" href="${esc(go)}" target="_blank" rel="noopener noreferrer">
+              Отримати гроші
+            </a>
+
+            <div class="warn">
+              <a href="${esc(WARNING_URL)}" target="_blank" rel="noopener noreferrer">
+                Попередження для споживача
+              </a>
+            </div>
+          </div>
+        `;
+        grid.appendChild(card);
+      }
+    }
+
+    async function load(){
+      const state = document.getElementById("state");
+      state.textContent = "Loading: " + API_URL;
+
+      const res = await fetch(API_URL, { cache: "no-store" });
+      if (!res.ok) throw new Error("HTTP " + res.status);
+
+      const data = await res.json();
+      if (!Array.isArray(data)) throw new Error("Bad JSON: expected array");
+
+      state.textContent = "OK. Loaded " + data.length + " offers.";
+      render(data);
+      return data;
+    }
+
+    document.getElementById("loadBtn").addEventListener("click", async () => {
+      try{ await load(); }
+      catch(e){
+        console.error(e);
+        document.getElementById("state").textContent =
+          "ERROR:\n" + e + "\n\nПеревір:\n- API_URL правильний\n- Воркер віддає CORS (* для тесту)\n- /api/offers відкривається у браузері";
+      }
+    });
+
+    document.getElementById("pingBtn").addEventListener("click", async () => {
+      try{
+        const data = await load();
+        document.getElementById("state").textContent =
+          "JSON:\n" + JSON.stringify(data.slice(0, 10), null, 2);
+      }catch(e){
+        console.error(e);
+        document.getElementById("state").textContent = "ERROR:\n" + e;
+      }
+    });
+  </script>
+</body>
+</html>
