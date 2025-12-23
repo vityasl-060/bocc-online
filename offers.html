@@ -149,6 +149,7 @@
 
     .logoLink{ display:block; width:170px; text-decoration:none; }
     .logoBox{
+      position: relative;
       width:170px;
       height:120px;
       border-radius: 22px;
@@ -163,10 +164,11 @@
     .logoLink:hover .logoBox{ transform: translateY(-1px) scale(1.01); filter: brightness(1.02); }
 
     .logo{
-      width: calc(100% - 18px);
-      height: calc(100% - 18px);
+      width: 100%;
+      height: 100%;
       object-fit: contain;
       display:block;
+      padding: 12px;
     }
 
     .meta{
@@ -239,7 +241,10 @@
       .logoLink{ width:100%; }
       .logoBox{
         width: 100%;
-        height: 160px;
+        height: 0;
+       padding-top: 56%;
+        max-height: 220px;
+        min-height: 140px;
       }
       .cta{ justify-items: stretch; }
       .btnOffer{ width: 100%; }
@@ -368,3 +373,4 @@
   </script>
 </body>
 </html>
+
