@@ -409,28 +409,24 @@
 
         card.innerHTML = `
           <div class="in">
-            <a class="logoLink" href="${esc(go)}" target="_blank" rel="noopener noreferrer" aria-label="Перейти до офера">
-              <img class="logo" src="${esc(logo)}" alt="Лого" loading="lazy">
+            <a class="logoLink" href="${esc(go)}" target="_blank" rel="noopener noreferrer">
+              <img class="logo" src="${esc(logo)}" alt="logo" loading="lazy">
             </a>
 
-            <div class="rightCol">
-              <div class="pppc">${pppc ? esc(pppc) : "РРПС: —"}</div>
+            <div class="mid">
+              ${pppc ? `<div class="pppc">${esc(pppc)}</div>` : ``}
 
               <div class="links">
                 <a href="${esc(WARNING_URL)}" target="_blank" rel="noopener noreferrer">
                   Попередження про наслідки для споживача
                 </a>
-                ${dangerUrl ? `
-                  <a href="${esc(dangerUrl)}" target="_blank" rel="noopener noreferrer">
-                    Істотні характеристики послуги
-                  </a>
-                ` : `
-                  <span style="color: rgba(238,241,255,.45); font-size:12px;">
-                    Істотні характеристики: —
-                  </span>
-                `}
+                <a href="${esc(o.danger || "")}" target="_blank" rel="noopener noreferrer">
+                  Істотні характеристики послуги
+                </a>
               </div>
+            </div>
 
+            <div class="rightCol">
               <a class="cta" href="${esc(go)}" target="_blank" rel="noopener noreferrer">
                 Отримати
               </a>
@@ -467,5 +463,6 @@
   </script>
 </body>
 </html>
+
 
 
