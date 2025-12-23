@@ -3,39 +3,32 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>BoCC — Local Offers Test</title>
+  <title>BoCC — Offers</title>
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
 
   <style>
     :root{
       --bgA:#070814;
       --bgB:#0b1022;
-
       --card: rgba(255,255,255,.07);
       --card2: rgba(255,255,255,.10);
       --stroke: rgba(255,255,255,.14);
-
       --text:#eef1ff;
       --muted: rgba(238,241,255,.68);
       --muted2: rgba(238,241,255,.52);
-
-      --p1:#6b2bd1;     /* BoCC purple */
-      --p2:#8a4dff;     /* brighter */
-      --cya:#33d6ff;    /* cyan */
-      --org:#ff8a2a;    /* CTA */
+      --p1:#6b2bd1;
+      --p2:#8a4dff;
+      --cya:#33d6ff;
+      --org:#ff8a2a;
       --ok:#34f2a2;
-
       --shadow: 0 34px 120px rgba(0,0,0,.55);
       --shadow2: 0 18px 44px rgba(0,0,0,.35);
-
       --r: 18px;
       --r2: 26px;
-
       --max: 1120px;
       --sans: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial, "Apple Color Emoji","Segoe UI Emoji";
       --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
     }
-
     *{ box-sizing:border-box; }
     html,body{ height:100%; }
     body{
@@ -49,8 +42,6 @@
         linear-gradient(180deg, var(--bgA), var(--bgB));
       overflow-x:hidden;
     }
-
-    /* Subtle animated glow blob */
     .bg-blob{
       position: fixed;
       inset: -20%;
@@ -70,7 +61,6 @@
       100% { transform: translate(-1.5%, -1.2%) scale(1.02); }
     }
 
-    /* Top bar */
     .topbar{
       width: min(var(--max), calc(100% - 40px));
       margin: 18px auto 0;
@@ -85,421 +75,168 @@
       border-radius: 50px;
       box-shadow: 0 12px 40px rgba(0,0,0,.25);
     }
-
-    .brand{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      user-select:none;
-    }
+    .brand{ display:flex; align-items:center; gap:10px; user-select:none; }
     .logo-img{
       width: 100px;
       height: 100px;
-
       object-fit: contain;
-
       border-radius: 25px;
       background: rgba(255,255,255,.04);
       padding: 3px;
-
-      box-shadow:
-        0 10px 28px rgba(107,43,209,.35);
-
+      box-shadow: 0 10px 28px rgba(107,43,209,.35);
       transition: transform .15s ease, box-shadow .15s ease;
     }
-    .logo-img:hover{
-      transform: translateY(-1px) scale(1.03);
-      box-shadow:
-        0 14px 36px rgba(107,43,209,.45);
-    }
-    .brand .title{
-      display:flex;
-      flex-direction:column;
-      line-height:1.05;
-    }
-    .brand b{
-      letter-spacing:.2px;
-      font-size: 14px;
-    }
-    .brand span{
-      font-size: 12px;
-      color: var(--muted2);
-      margin-top: 2px;
-    }
-
-    .right{
-      display:flex;
-      align-items:center;
-      gap: 10px;
-    }
+    .logo-img:hover{ transform: translateY(-1px) scale(1.03); box-shadow: 0 14px 36px rgba(107,43,209,.45); }
+    .brand .title{ display:flex; flex-direction:column; line-height:1.05; }
+    .brand b{ letter-spacing:.2px; font-size: 14px; }
+    .brand span{ font-size: 12px; color: var(--muted2); margin-top: 2px; }
+    .right{ display:flex; align-items:center; gap: 10px; }
     .pill{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      padding: 8px 12px;
-      border-radius: 999px;
+      display:flex; align-items:center; gap:10px;
+      padding: 8px 12px; border-radius: 999px;
       border: 1px solid rgba(255,255,255,.10);
       background: rgba(0,0,0,.16);
-      color: var(--muted);
-      font-size: 12.5px;
-      white-space: nowrap;
+      color: var(--muted); font-size: 12.5px; white-space: nowrap;
     }
-    .dot{
-      width:8px;height:8px;border-radius:999px;
-      background: var(--ok);
-      box-shadow: 0 0 0 6px rgba(52,242,162,.10);
-    }
-    .lang{
-      height: 36px;
-      border-radius: 12px;
-      border: 1px solid rgba(255,255,255,.10);
-      background: rgba(0,0,0,.16);
-      color: rgba(238,241,255,.82);
-      padding: 0 10px;
-      cursor:pointer;
-      outline:none;
-      font-weight: 700;
-    }
+    .dot{ width:8px;height:8px;border-radius:999px; background: var(--ok); box-shadow: 0 0 0 6px rgba(52,242,162,.10); }
 
-    /* Center layout */
     .wrap{
       width: min(var(--max), calc(100% - 40px));
       margin: 18px auto 34px;
       display:grid;
-      grid-template-columns: 1.15fr .85fr;
-      gap: 18px;
-      align-items: stretch;
-    }
-    @media (max-width: 920px){
-      .wrap{ grid-template-columns: 1fr; }
+      grid-template-columns: 1fr;
+      gap: 14px;
     }
 
-    .card{
+    .state{
+      padding: 12px 14px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.18);
+      color: rgba(238,241,255,.78);
+      font-size: 13px;
+      white-space: pre-wrap;
+    }
+
+    .grid{
+      display:grid;
+      gap: 12px;
+    }
+
+    .offer{
       border-radius: var(--r2);
       background: var(--card);
       border: 1px solid rgba(255,255,255,.10);
-      box-shadow: var(--shadow);
-      position:relative;
+      box-shadow: var(--shadow2);
       overflow:hidden;
+      position: relative;
     }
-    .card:before{
+    .offer:before{
       content:"";
       position:absolute;
       inset:-2px;
-      background: linear-gradient(135deg, rgba(138,77,255,.40), rgba(51,214,255,.20), rgba(255,138,42,.12));
-      opacity: .20;
-      filter: blur(16px);
+      background: linear-gradient(135deg, rgba(138,77,255,.30), rgba(51,214,255,.14), rgba(255,138,42,.10));
+      opacity: .18;
+      filter: blur(18px);
       pointer-events:none;
     }
-    .inner{ position:relative; padding: 26px; }
-    @media (max-width: 520px){
-      .inner{ padding: 18px; }
-    }
-
-    /* Left card content */
-    .kicker{
-      display:flex;
-      align-items:center;
-      gap: 10px;
-      color: var(--muted);
-      font-size: 13px;
-      letter-spacing:.2px;
-    }
-    .tag{
-      font-family: var(--mono);
-      font-size: 12px;
-      padding: 6px 10px;
-      border-radius: 999px;
-      background: rgba(138,77,255,.14);
-      border: 1px solid rgba(138,77,255,.24);
-      color: rgba(238,241,255,.86);
-    }
-
-    h1{
-      margin: 14px 0 10px;
-      font-size: clamp(30px, 3.2vw, 46px);
-      line-height: 1.02;
-      letter-spacing: -.8px;
-    }
-    h1 .bocc{
-      background: linear-gradient(135deg, rgba(238,241,255,.95), rgba(238,241,255,.72));
-      -webkit-background-clip:text;
-      background-clip:text;
-      color: transparent;
-    }
-    h1 .online{
-      background: linear-gradient(135deg, var(--p2), var(--cya));
-      -webkit-background-clip:text;
-      background-clip:text;
-      color: transparent;
-      text-shadow: 0 18px 60px rgba(138,77,255,.18);
-    }
-
-    .form{
-      margin-top: 18px;
+    .offer .in{
+      position: relative;
+      padding: 14px;
       display:grid;
-      grid-template-columns: 1fr auto;
-      gap: 10px;
-      align-items:center;
-      max-width: 560px;
-    }
-    @media (max-width: 560px){
-      .form{ grid-template-columns: 1fr; }
+      grid-template-columns: 140px 140px;
+      gap: 14px;
+      align-items: stretch;
+      justify-content: start;
     }
 
-    .field{
-      display:flex;
-      align-items:center;
-      gap: 10px;
-      padding: 14px 14px;
-      border-radius: 16px;
-      border: 1px solid rgba(255,255,255,.14);
-      background: rgba(0,0,0,.22);
-      backdrop-filter: blur(10px);
-      box-shadow: var(--shadow2);
+    .offer .logoLink{
+      display:block;
+      width: 140px;
+      height: 140px;
+      border-radius: 22px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.18);
+      overflow:hidden;
+      box-shadow: 0 14px 34px rgba(0,0,0,.25);
+      transition: transform .12s ease, filter .12s ease;
     }
-    .field svg{ flex:0 0 auto; opacity: .95; }
-    .field input{
+    .offer .logoLink:hover{ transform: translateY(-1px) scale(1.01); filter: brightness(1.02); }
+    .offer img.logo{
       width:100%;
-      border:none;
-      outline:none;
-      background: transparent;
-      color: var(--text);
-      font-size: 16px;
-      letter-spacing:.2px;
+      height:100%;
+      object-fit: contain;
+      display:block;
+      padding: 10px;
     }
-    .field input::placeholder{ color: rgba(238,241,255,.45); }
 
-    .btn{
-      appearance:none;
+    .offer .rightCol{
+      width: 140px;
+      min-height: 140px;
+      display:flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .offer .pppc{
+      font-size: 12px;
+      line-height: 1.25;
+      color: rgba(238,241,255,.85);
+      padding: 10px 10px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.18);
+    }
+
+    .offer .links{
+      display:flex;
+      flex-direction: column;
+      gap: 8px;
+      padding: 10px 10px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.16);
+    }
+    .offer .links a{
+      color: rgba(238,241,255,.78);
+      text-decoration: none;
+      font-size: 12px;
+      line-height: 1.2;
+    }
+    .offer .links a:hover{ color: rgba(238,241,255,.95); }
+
+    .offer .cta{
+      display:block;
+      text-align:center;
       border:none;
       border-radius: 16px;
-      padding: 14px 16px;
+      padding: 12px 10px;
       cursor:pointer;
       color: rgba(255,255,255,.95);
       background: linear-gradient(135deg, var(--org), #ffb01a);
       box-shadow: 0 18px 34px rgba(255,138,42,.22);
       font-weight: 900;
       letter-spacing: .3px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      gap: 10px;
-      min-width: 210px;
-      transition: transform .08s ease, filter .15s ease;
-      user-select:none;
       text-transform: uppercase;
-    }
-    .btn:hover{ filter: brightness(1.03); }
-    .btn:active{ transform: translateY(1px) scale(.99); }
-
-    .mini{
-      margin-top: 10px;
-      color: var(--muted2);
-      font-size: 12.5px;
-      letter-spacing:.1px;
-      display:flex;
-      gap: 10px;
-      align-items:center;
-      flex-wrap: wrap;
-    }
-    .mini .spark{
-      width: 6px;
-      height: 6px;
-      border-radius: 99px;
-      background: rgba(238,241,255,.35);
-    }
-
-    /* Right card: minimal, but classy */
-    .sideTitle{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap: 10px;
-      margin-bottom: 14px;
-    }
-    .sideTitle b{ font-size: 15px; }
-    .sideTitle .badge{
-      font-family: var(--mono);
-      font-size: 12px;
-      padding: 6px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.03);
-      color: rgba(238,241,255,.78);
-    }
-
-    .steps{
-      display:grid;
-      gap: 10px;
-    }
-    .step{
-      display:flex;
-      gap: 12px;
-      align-items:center;
-      padding: 12px 12px;
-      border-radius: 18px;
-      border: 1px solid rgba(255,255,255,.10);
-      background: rgba(0,0,0,.18);
-    }
-    .num{
-      width: 38px;
-      height: 38px;
-      border-radius: 16px;
-      display:grid;
-      place-items:center;
-      font-family: var(--mono);
-      font-weight: 900;
-      background: linear-gradient(135deg, rgba(138,77,255,.25), rgba(51,214,255,.15));
-      border: 1px solid rgba(255,255,255,.12);
-      flex: 0 0 auto;
-    }
-    .step b{ font-size: 13.5px; }
-    .step span{ display:block; margin-top: 2px; color: var(--muted); font-size: 12px; }
-
-    .footer{
-      width: min(var(--max), calc(100% - 40px));
-      margin: 0 auto 26px;
-      color: rgba(238,241,255,.45);
-      font-size: 12px;
-      display:flex;
-      justify-content:space-between;
-      gap: 12px;
-      flex-wrap: wrap;
-      padding: 0 4px;
-    }
-    .footer a{
-      color: rgba(238,241,255,.60);
       text-decoration:none;
+      user-select:none;
+      transition: transform .08s ease, filter .15s ease;
     }
-    .footer a:hover{ color: rgba(238,241,255,.82); }
+    .offer .cta:hover{ filter: brightness(1.03); }
+    .offer .cta:active{ transform: translateY(1px) scale(.99); }
 
-    /* tiny shimmer on card edges */
-    .sheen{
-      position:absolute;
-      inset:0;
-      pointer-events:none;
-      opacity:.55;
-      background: linear-gradient(120deg, transparent 20%, rgba(255,255,255,.10) 36%, transparent 52%);
-      transform: translateX(-60%);
-      animation: sheen 6.5s ease-in-out infinite;
-    }
-    @keyframes sheen{
-      0%   { transform: translateX(-60%); opacity:.0; }
-      10%  { opacity:.25; }
-      40%  { opacity:.12; }
-      55%  { opacity:.0; }
-      100% { transform: translateX(130%); opacity:.0; }
-    }
-
-    .amount-box{
-      margin: 18px 0 8px;
-      padding: 16px 16px 14px;
-      border-radius: 18px;
-      background: rgba(0,0,0,.22);
-      border: 1px solid rgba(255,255,255,.10);
-      box-shadow: 0 16px 34px rgba(0,0,0,.35);
-    }
-
-    .amount-title{
-      font-size: 13px;
-      color: var(--muted);
-      letter-spacing: .2px;
-    }
-
-    .amount-value{
-      margin: 6px 0 12px;
-      font-size: 32px;
-      font-weight: 900;
-      letter-spacing: .4px;
-      display:flex;
-      align-items:baseline;
-      gap: 6px;
-    }
-
-    .amount-value span{
-      background: linear-gradient(135deg, var(--p2), var(--cya));
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-
-    .amount-value .currency{
-      font-size: 18px;
-      opacity: .85;
-    }
-
-    /* Slider */
-    .amount-slider{
-      -webkit-appearance: none;
-      width: 100%;
-      height: 8px;
-      border-radius: 999px;
-      background: linear-gradient(
-        90deg,
-        var(--org) 0%,
-        var(--org) 32%,
-        rgba(255,255,255,.14) 32%
-      );
-      outline: none;
-    }
-
-    /* Chrome / Edge */
-    .amount-slider::-webkit-slider-thumb{
-      -webkit-appearance: none;
-      width: 26px;
-      height: 26px;
-      border-radius: 10px;
-      background: linear-gradient(135deg, var(--org), #ffb01a);
-      box-shadow:
-        0 6px 18px rgba(255,138,42,.55),
-        0 0 0 6px rgba(255,138,42,.18);
-      cursor: pointer;
-      transition: transform .12s ease;
-    }
-    .amount-slider::-webkit-slider-thumb:hover{
-      transform: scale(1.05);
-    }
-
-    /* Firefox */
-    .amount-slider::-moz-range-thumb{
-      width: 26px;
-      height: 26px;
-      border-radius: 10px;
-      background: linear-gradient(135deg, var(--org), #ffb01a);
-      border: none;
-      cursor: pointer;
-    }
-
-    /* Limits */
-    .amount-limits{
-      margin-top: 6px;
-      display:flex;
-      justify-content:space-between;
-      font-size: 12px;
-      color: var(--muted2);
-    }
-    
-    .field input{
-      caret-color: rgba(255,255,255,.95);
-    }
-    
-    .btn{
-      -webkit-tap-highlight-color: transparent;
-      outline: none;
-    }
-
-    .btn:focus{
-      outline: none;
-      box-shadow: none;
-    }
-
-    .btn:active{
-      outline: none;
-    }
-
-    .btn:focus-visible{
-      outline: none;
+    @media (max-width: 520px){
+      .offer .in{
+        grid-template-columns: 1fr;
+        justify-items: center;
+      }
+      .offer .logoLink, .offer .rightCol{
+        width: 100%;
+        max-width: 340px;
+      }
+      .offer .logoLink{ height: 140px; }
+      .offer .rightCol{ min-height: auto; }
     }
   </style>
 </head>
@@ -509,11 +246,7 @@
 
   <header class="topbar" aria-label="Top bar">
     <div class="brand">
-      <img
-        src="/assets/BoCConline.png"
-        alt="BoCC Online"
-        class="logo-img"
-      />
+      <img src="/assets/BoCConline.png" alt="BoCC Online" class="logo-img"/>
       <div class="title">
         <b>Bests of Credit Companies</b>
         <span>online</span>
@@ -527,80 +260,84 @@
       </div>
     </div>
   </header>
+
   <div class="wrap">
-
-    <div id="state" class="state">Натисни “Load”, щоб завантажити офери.</div>
-
-    <div style="margin-top:10px; display:flex; gap:10px; flex-wrap:wrap;">
-      <button id="loadBtn" style="padding:10px 14px;border-radius:12px;border:0;cursor:pointer;font-weight:800;">
-        Load
-      </button>
-      <button id="pingBtn" style="padding:10px 14px;border-radius:12px;border:0;cursor:pointer;">
-        Debug (print JSON)
-      </button>
-    </div>
-
+    <div id="state" class="state">Завантажую офери…</div>
     <div id="grid" class="grid"></div>
   </div>
 
   <script>
-    // ✅ ВСТАВ СЮДИ РЕАЛЬНИЙ URL ВОРКЕРА:
-    // 1) якщо воркер на bocc.online: "https://bocc.online/api/offers"
-    // 2) якщо воркер на workers.dev: "https://offers-json.your.workers.dev/api/offers"
     const API_URL = "https://list-app.slvitya.workers.dev/api/offers";
 
     const WARNING_URL = "https://bocc.in.ua/warning";
 
     function esc(s){
-      return String(s).replace(/[&<>"']/g, m => ({
+      return String(s ?? "").replace(/[&<>"']/g, m => ({
         '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
       }[m]));
     }
 
+    function safeUrl(u){
+      const s = String(u ?? "").trim();
+      if (!s) return "";
+      if (s.startsWith("http://") || s.startsWith("https://")) return s;
+      return "";
+    }
+
     function render(offers){
       const grid = document.getElementById("grid");
-      const count = document.getElementById("count");
       grid.innerHTML = "";
 
-      count.textContent = "Offers: " + offers.length;
-
       for (const o of offers){
-        const id = o.id || "";
-        const logo = o.logo || "";
-        const pppc = o.pppc || "";
-        const go = o.go_url || ("https://go.bocc.online/" + encodeURIComponent(id));
+        const id = String(o.id ?? "").trim();
+        if (!id) continue;
+
+        const logo = safeUrl(o.logo);
+        const pppc = String(o.pppc ?? "").trim();
+        const dangerUrl = safeUrl(o.danger || o.danger_url || o.istotni || o.terms_url); // на всяк випадок
+        const go = safeUrl(o.go_url) || ("https://go.bocc.online/" + encodeURIComponent(id));
 
         const card = document.createElement("div");
         card.className = "offer";
 
         card.innerHTML = `
           <div class="in">
-            <div class="top">
-              <img class="logo" src="${esc(logo)}" alt="logo" loading="lazy">
-              <div class="meta">
-                <div class="id">ID: ${esc(id)}</div>
-                ${pppc ? `<div class="pppc">${esc(pppc)}</div>` : ``}
-              </div>
-            </div>
-
-            <a class="btn" href="${esc(go)}" target="_blank" rel="noopener noreferrer">
-              Отримати гроші
+            <a class="logoLink" href="${esc(go)}" target="_blank" rel="noopener noreferrer" aria-label="Перейти до офера">
+              <img class="logo" src="${esc(logo)}" alt="Лого" loading="lazy">
             </a>
 
-            <div class="warn">
-              <a href="${esc(WARNING_URL)}" target="_blank" rel="noopener noreferrer">
-                Попередження для споживача
+            <div class="rightCol">
+              <div class="pppc">${pppc ? esc(pppc) : "РРПС: —"}</div>
+
+              <div class="links">
+                <a href="${esc(WARNING_URL)}" target="_blank" rel="noopener noreferrer">
+                  Попередження про наслідки для споживача
+                </a>
+                ${dangerUrl ? `
+                  <a href="${esc(dangerUrl)}" target="_blank" rel="noopener noreferrer">
+                    Істотні характеристики послуги
+                  </a>
+                ` : `
+                  <span style="color: rgba(238,241,255,.45); font-size:12px;">
+                    Істотні характеристики: —
+                  </span>
+                `}
+              </div>
+
+              <a class="cta" href="${esc(go)}" target="_blank" rel="noopener noreferrer">
+                Отримати
               </a>
             </div>
           </div>
         `;
+
         grid.appendChild(card);
       }
     }
 
-    async function load(){
+    async function loadOffers(){
       const state = document.getElementById("state");
-      state.textContent = "Loading: " + API_URL;
+      state.textContent = "Завантажую офери…";
 
       const res = await fetch(API_URL, { cache: "no-store" });
       if (!res.ok) throw new Error("HTTP " + res.status);
@@ -608,34 +345,18 @@
       const data = await res.json();
       if (!Array.isArray(data)) throw new Error("Bad JSON: expected array");
 
-      state.textContent = "OK. Loaded " + data.length + " offers.";
+      state.textContent = "Ок. Оферів: " + data.length;
       render(data);
-      return data;
     }
 
-    document.getElementById("loadBtn").addEventListener("click", async () => {
-      try{ await load(); }
-      catch(e){
+    document.addEventListener("DOMContentLoaded", async () => {
+      try { await loadOffers(); }
+      catch (e){
         console.error(e);
         document.getElementById("state").textContent =
-          "ERROR:\n" + e + "\n\nПеревір:\n- API_URL правильний\n- Воркер віддає CORS (* для тесту)\n- /api/offers відкривається у браузері";
-      }
-    });
-
-    document.getElementById("pingBtn").addEventListener("click", async () => {
-      try{
-        const data = await load();
-        document.getElementById("state").textContent =
-          "JSON:\n" + JSON.stringify(data.slice(0, 10), null, 2);
-      }catch(e){
-        console.error(e);
-        document.getElementById("state").textContent = "ERROR:\n" + e;
+          "ERROR: " + e + "\nПеревір API_URL і чи відкривається /api/offers у браузері.";
       }
     });
   </script>
 </body>
-
 </html>
-
-
-
