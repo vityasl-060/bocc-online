@@ -300,8 +300,8 @@
   </header>
 
   <div class="wrap">
-    <div id="count" class="pill" style="width:fit-content;"></div>
-    <div id="state" class="state">Завантажую офери…</div>
+    <div id="count" class="pill" style="width:fit-content;">Завантажую офери…</div>
+    <div id="state" class="state" style="display:none;"></div>
     <div id="grid" class="grid"></div>
   </div>
 
@@ -374,8 +374,12 @@
     }
 
     async function loadOffers(){
+      const pill = document.getElementById("count");
       const state = document.getElementById("state");
-      state.textContent = "Завантажую офери…";
+
+      pill.textContent = "Завантажую офери…";
+      state.style.display = "none";
+      state.textContent = "";
 
       const res = await fetch(API_URL, { cache: "no-store" });
       if (!res.ok) throw new Error("HTTP " + res.status);
@@ -383,8 +387,7 @@
       const data = await res.json();
       if (!Array.isArray(data)) throw new Error("Bad JSON: expected array");
 
-      document.getElementById("count").textContent = "Offers: " + data.length;
-      state.textContent = "Пропозицій для Вас: " + data.length;
+      pill.textContent = "Пропозицій для Вас: " + data.length;
 
       render(data);
     }
@@ -400,6 +403,7 @@
   </script>
 </body>
 </html>
+
 
 
 
