@@ -294,7 +294,7 @@
 
         const logo = safeUrl(o.logo);
         const pppc = String(o.pppc ?? "").trim();
-        const dangerUrl = safeUrl(o.danger || o.danger_url || o.istotni || o.terms_url); // на всяк випадок
+        const dangerUrl = safeUrl(o.danger || o.danger_url || o.istotni || o.terms_url);
         const go = safeUrl(o.go_url) || ("https://go.bocc.online/" + encodeURIComponent(id));
 
         const card = document.createElement("div");
@@ -345,7 +345,7 @@
       const data = await res.json();
       if (!Array.isArray(data)) throw new Error("Bad JSON: expected array");
 
-      state.textContent = "Ок. Оферів: " + data.length;
+      state.textContent = "Пропозиції для Вас: " + data.length;
       render(data);
     }
 
@@ -360,3 +360,4 @@
   </script>
 </body>
 </html>
+
