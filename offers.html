@@ -324,6 +324,43 @@
       return "";
     }
 
+    function getCookiesMap() {
+      return document.cookie
+        .split(';')
+        .map(v => v.trim())
+        .filter(Boolean)
+        .reduce((acc, c) => {
+          const i = c.indexOf('=');
+          if (i === -1) return acc;
+          const k = c.slice(0, i);
+          const v = decodeURIComponent(c.slice(i + 1));
+          acc[k] = v;
+          return acc;
+        }, {});
+    }
+
+    function appendParamsFromCookies(url) {
+      try {
+        const u = new URL(url);
+        const cookies = getCookiesMap();
+
+        const allowed = [
+          'tid1','tid2','tid3','tid4','tid5','tid6',
+          'source','promo','campaign'
+        ];
+
+        for (const k of allowed) {
+          if (cookies[k]) {
+            u.searchParams.set(k, cookies[k]);
+          }
+        }
+
+        return u.toString();
+      } catch {
+        return url;
+      }
+    }
+
     function render(offers){
       const grid = document.getElementById("grid");
       grid.innerHTML = "";
@@ -335,7 +372,10 @@
         const logo = safeUrl(o.logo);
         const pppc = String(o.pppc ?? "").trim();
         const dangerUrl = safeUrl(o.danger || o.danger_url || o.istotni || o.terms_url);
-        const go = safeUrl(o.go_url) || ("https://go.bocc.online/" + encodeURIComponent(id));
+        const rawGo =
+          safeUrl(o.go_url) || ("https://go.bocc.online/" + encodeURIComponent(id));
+
+        const go = appendParamsFromCookies(rawGo);
 
         const xv = String(o.xv ?? "").trim();
         const xvAttr = xv ? ` data-xv="${esc(xv)}"` : ``;
@@ -408,6 +448,7 @@
   </script>
 </body>
 </html>
+
 
 
 
