@@ -337,14 +337,17 @@
         const dangerUrl = safeUrl(o.danger || o.danger_url || o.istotni || o.terms_url);
         const go = safeUrl(o.go_url) || ("https://go.bocc.online/" + encodeURIComponent(id));
 
+        const xv = String(o.xv ?? "").trim();               // ✅ НОВЕ: значення для data-xv
+        const xvAttr = xv ? ` data-xv="${esc(xv)}"` : ``;   // ✅ НОВЕ: готовий атрибут або пусто
+
         const card = document.createElement("div");
         card.className = "offer";
 
         card.innerHTML = `
           <div class="in">
-            <a class="logoLink" href="${esc(go)}" target="_blank" rel="noopener noreferrer">
+            <a class="logoLink" href="${esc(go)}" target="_blank" rel="noopener noreferrer"${xvAttr}>
               <div class="logoBox">
-                <img class="logo" src="${esc(logo)}" alt="logo" loading="lazy">
+                <img class="logo" src="${esc(logo)}" alt="logo" loading="lazy"${xvAttr}>
               </div>
             </a>
 
@@ -364,7 +367,7 @@
             </div>
 
             <div class="cta">
-              <a class="btnOffer" href="${esc(go)}" target="_blank" rel="noopener noreferrer">
+              <a class="btnOffer" href="${esc(go)}" target="_blank" rel="noopener noreferrer"${xvAttr}>
                 Отримати
               </a>
             </div>
@@ -405,6 +408,7 @@
   </script>
 </body>
 </html>
+
 
 
 
