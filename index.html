@@ -766,8 +766,45 @@
     range.addEventListener('input', updateSlider);
     updateSlider();
   </script>
+  
+  <script>
+  (function () {
+    const outParams = {
+      tid2: 'tid2',
+      source: 'source',
+      tid1: 'tid1',
+      promo: 'promo',
+      campaign: 'campaign',
+      tid3: 'tid3',
+      tid4: 'tid4',
+      tid6: 'tid6',
+    };
+
+    const params = new URLSearchParams(window.location.search);
+
+    function setCookie(name, value, days = 365) {
+      if (!value) return;
+      const maxAge = days * 24 * 60 * 60;
+      document.cookie =
+        name + '=' + encodeURIComponent(value) +
+        '; path=/' +
+        '; max-age=' + maxAge +
+        '; SameSite=Lax';
+    }
+
+    for (const [cookieName, paramName] of Object.entries(outParams)) {
+      const val = params.get(paramName);
+      if (val) {
+        setCookie(cookieName, val);
+      }
+    }
+
+    setCookie('tid5', 'onl');
+  })();
+  </script>
 </body>
 
 </html>
+
 
 
