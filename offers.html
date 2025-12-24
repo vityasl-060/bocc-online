@@ -337,8 +337,8 @@
         const dangerUrl = safeUrl(o.danger || o.danger_url || o.istotni || o.terms_url);
         const go = safeUrl(o.go_url) || ("https://go.bocc.online/" + encodeURIComponent(id));
 
-        const xv = String(o.xv ?? "").trim();               // ✅ НОВЕ: значення для data-xv
-        const xvAttr = xv ? ` data-xv="${esc(xv)}"` : ``;   // ✅ НОВЕ: готовий атрибут або пусто
+        const xv = String(o.xv ?? "").trim();
+        const xvAttr = xv ? ` data-xv="${esc(xv)}"` : ``;
 
         const card = document.createElement("div");
         card.className = "offer";
@@ -408,6 +408,7 @@
   </script>
 </body>
 </html>
+
 
 
 
