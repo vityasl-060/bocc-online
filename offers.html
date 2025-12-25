@@ -26,21 +26,32 @@
       margin:0;
       font-family: var(--sans);
       color: var(--text);
-      background: linear-gradient(180deg, var(--bgA), var(--bgB));
-      overflow-x:hidden;
-    }
-
-    .bg-static{
-      position: fixed;
-      inset: 0;
-      z-index: -3;
-      pointer-events: none;
-      transform: translateZ(0);
-      will-change: transform;
       background:
         radial-gradient(1200px 800px at 12% 12%, rgba(138,77,255,.20), transparent 60%),
         radial-gradient(900px 700px at 92% 22%, rgba(51,214,255,.16), transparent 58%),
-        radial-gradient(900px 700px at 40% 110%, rgba(52,242,162,.12), transparent 62%);
+        radial-gradient(900px 700px at 40% 110%, rgba(52,242,162,.12), transparent 62%),
+        linear-gradient(180deg, var(--bgA), var(--bgB));
+      overflow-x:hidden;
+    }
+
+    .bg-blob{
+      position: fixed;
+      inset: -20%;
+      pointer-events:none;
+      opacity: .95;
+      filter: blur(40px);
+      transform: translateZ(0);
+      background:
+        radial-gradient(520px 420px at 20% 30%, rgba(107,43,209,.35), transparent 60%),
+        radial-gradient(520px 420px at 80% 20%, rgba(51,214,255,.24), transparent 62%),
+        radial-gradient(520px 420px at 60% 80%, rgba(255,138,42,.18), transparent 62%);
+      animation: floaty 10s ease-in-out infinite;
+    }
+
+    @keyframes floaty{
+      0%   { transform: translate(-1.5%, -1.2%) scale(1.02); }
+      50%  { transform: translate( 1.2%,  1.0%) scale(1.06); }
+      100% { transform: translate(-1.5%, -1.2%) scale(1.02); }
     }
 
     .topbar{
@@ -63,15 +74,11 @@
     .logo-img{
       width: 100px;
       height: 100px;
-
       object-fit: contain;
-
       border-radius: 25px;
       background: rgba(255,255,255,.04);
       padding: 3px;
-
       box-shadow: 0 10px 28px rgba(107,43,209,.35);
-
       transition: transform .15s ease, box-shadow .15s ease;
     }
     .logo-img:hover{
@@ -284,46 +291,8 @@
       .cta{ justify-items: stretch; }
       .btnOffer{ width: 100%; }
     }
-
-    .bg-blob,
-    .bg-blob.mirror{
-      position: fixed;
-      inset: -20%;
-      pointer-events:none;
-      filter: blur(42px);
-      opacity: .9;
-      will-change: transform;
-      z-index: -1;
-    }
-
-    .bg-blob{
-      background:
-        radial-gradient(520px 420px at 20% 30%, rgba(107,43,209,.35), transparent 60%),
-        radial-gradient(520px 420px at 80% 20%, rgba(51,214,255,.24), transparent 62%),
-        radial-gradient(520px 420px at 60% 80%, rgba(255,138,42,.18), transparent 62%);
-      animation: blobFloat 14s ease-in-out infinite;
-    }
-
-    .bg-blob.mirror{
-      transform: scaleX(-1);
-      opacity: .75;
-      animation: blobFloatMirror 16s ease-in-out infinite;
-    }
-
-    @keyframes blobFloat{
-      0%   { transform: translate(-1.5%, -1.2%) scale(1.02); }
-      50%  { transform: translate( 1.2%,  1.0%) scale(1.06); }
-      100% { transform: translate(-1.5%, -1.2%) scale(1.02); }
-    }
-
-    @keyframes blobFloatMirror{
-      0%   { transform: scaleX(-1) translate( 1.3%, -1.1%) scale(1.03); }
-      50%  { transform: scaleX(-1) translate(-1.1%,  1.2%) scale(1.06); }
-      100% { transform: scaleX(-1) translate( 1.3%, -1.1%) scale(1.03); }
-    }
   </style>
 </head>
-
 <body>
   <div class="bg-static" aria-hidden="true"></div>
   <div class="bg-blob" aria-hidden="true"></div>
@@ -511,6 +480,7 @@
   </script>
 </body>
 </html>
+
 
 
 
