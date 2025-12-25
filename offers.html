@@ -147,9 +147,8 @@
       display:grid;
       grid-template-columns: 1fr;
       gap: 14px;
-
-      flex: 1;     /* ✅ займає весь вільний простір, якщо оферів мало */
-      min-height: 0; /* ✅ не робить “хвіст” */
+      
+      flex: 1 0 auto;
     }
 
     .state{
@@ -532,6 +531,7 @@
   </script>
 </body>
 </html>
+
 
 
 
