@@ -549,12 +549,18 @@
 
     .bg-layer{
       position: fixed;
-      inset: 0;
+
+      /* ✅ робимо “запас” навколо екрану, щоб blur не обрізався */
+      top: -30vh;
+      left: -20vw;
+      width: 140vw;
+      height: 160vh;
+
       z-index: 0;
       pointer-events: none;
       overflow: hidden;
       isolation: isolate;
-      transform: translate3d(0,0,0) scale(1.01);
+      transform: translate3d(0,0,0);
     }
 
     .topbar, .wrap, .footer{
@@ -865,6 +871,7 @@
 </body>
 
 </html>
+
 
 
 
