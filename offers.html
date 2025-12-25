@@ -20,14 +20,10 @@
     }
 
     *{ box-sizing:border-box; }
-    html, body { height: 100%; overflow-x: clip; }
+    html, body { overflow-x: clip; }
 
     body{
       margin:0;
-      min-height: 100svh;              /* ✅ */
-      display:flex;                    /* ✅ */
-      flex-direction:column;           /* ✅ */
-
       font-family: var(--sans);
       color: var(--text);
       background:
@@ -143,16 +139,10 @@
     .wrap{
       width: min(var(--max), calc(100% - 40px));
       margin: 18px auto 34px;
-
-      display: grid;
-      grid-template-columns: 1.35fr 0.65fr;
+      display:grid;
+      grid-template-columns: 1fr;
       gap: 14px;
-
-      align-items: start;
-      align-content: start;
-
-      flex: 1;          /* ✅ займає весь вільний простір */
-      min-height: 0;    /* ✅ не робить “хвіст” */
+      min-height: 70vh;
     }
 
     .state{
@@ -535,6 +525,7 @@
   </script>
 </body>
 </html>
+
 
 
 
