@@ -43,10 +43,6 @@
         linear-gradient(180deg, var(--bgA), var(--bgB));
     }
 
-    @supports (height: 100dvh){
-      body{ min-height: 100dvh; }
-    }
-
     .bg-blob{
       position: absolute;
       inset: -55%;
@@ -341,8 +337,6 @@
     }
 
     .bg-layer{
-      height: 100svh;
-      left: 0; right: 0; top: 0;
       position: fixed;
       inset: 0;
       z-index: 0;
@@ -350,10 +344,6 @@
       overflow: hidden;
       isolation: isolate;
       transform: translate3d(0,0,0) scale(1.01);
-    }
-
-    @supports (height: 100dvh){
-      .bg-layer{ height: 100dvh; }
     }
 
     .topbar, .wrap, .footer{
@@ -551,6 +541,7 @@
   </script>
 </body>
 </html>
+
 
 
 
