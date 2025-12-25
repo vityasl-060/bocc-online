@@ -518,6 +518,21 @@
       .topbar{ width: calc(100% - 24px); padding: 10px; }
       .wrap{ width: calc(100% - 24px); }
     }
+
+    .bg-layer{
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+      isolation: isolate;
+      transform: translateZ(0);
+    }
+
+    .topbar, .wrap, .footer{
+      position: relative;
+      z-index: 1;
+    }
   </style>
 </head>
 
@@ -818,6 +833,7 @@
 </body>
 
 </html>
+
 
 
 
