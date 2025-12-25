@@ -43,6 +43,10 @@
         linear-gradient(180deg, var(--bgA), var(--bgB));
     }
 
+    @supports (height: 100dvh){
+      body{ min-height: 100dvh; }
+    }
+
     .bg-blob{
       position: absolute;
       inset: -55%;
@@ -541,6 +545,7 @@
   </script>
 </body>
 </html>
+
 
 
 
