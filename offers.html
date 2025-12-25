@@ -35,10 +35,9 @@
 
     .bg-blob{
       position: absolute;
-      inset: -55%;                 /* ✅ було -35% */
+      inset: -55%;
       opacity: .95;
 
-      /* ✅ blur прибрали звідси */
       filter: none;
 
       transform: translate3d(0,0,0);
@@ -73,14 +72,13 @@
       opacity: .80;
       animation-duration: 13s;
       animation-delay: -4s;
-      /* ✅ робимо дзеркало не через transform, а через інверсію фону */
       filter: none;
       mix-blend-mode: normal;
-      transform: none; /* ✅ щоб keyframes працювали */
+      transform: none;
     }
 
     .bg-blob.mirror::before{
-      transform: scaleX(-1) translateZ(0); /* ✅ дзеркалимо тільки “blur-шар” */
+      transform: scaleX(-1) translateZ(0);
     }
 
     .topbar{
@@ -527,6 +525,7 @@
   </script>
 </body>
 </html>
+
 
 
 
