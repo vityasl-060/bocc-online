@@ -36,10 +36,10 @@
 
     .bg-blob{
       position: absolute;
-      inset: -35%;                 /* ✅ більше поля — менше шансів “порізки” */
+      inset: -35%;
       opacity: .95;
       filter: blur(40px);
-      transform: translate3d(0,0,0); /* ✅ стабільніше за translateZ(0) */
+      transform: translate3d(0,0,0);
       backface-visibility: hidden;
       will-change: transform;
 
@@ -506,6 +506,7 @@
   </script>
 </body>
 </html>
+
 
 
 
