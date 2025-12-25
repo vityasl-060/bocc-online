@@ -195,13 +195,23 @@
     .wrap{
       width: min(var(--max), calc(100% - 40px));
       margin: 18px auto 34px;
-      display:grid;
-      grid-template-columns: 1fr;
+
+      display: grid;
+
+      grid-template-columns: 1.35fr 0.65fr;
+
       gap: 14px;
+
+      align-items: start;
+      align-content: start;
+
       min-height: 70vh;
     }
+
     @media (max-width: 920px){
-      .wrap{ grid-template-columns: 1fr; }
+      .wrap{
+        grid-template-columns: 1fr;
+      }
     }
 
     .card{
@@ -851,6 +861,7 @@
 </body>
 
 </html>
+
 
 
 
