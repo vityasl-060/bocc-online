@@ -304,11 +304,16 @@
     .bg-layer{
       position: fixed;
       inset: 0;
-      z-index: -1;
+      z-index: 0;
       pointer-events: none;
       overflow: hidden;       /* ✅ ховає “шви” */
       isolation: isolate;     /* ✅ окремий композиційний контекст */
       transform: translateZ(0);
+    }
+
+    .topbar, .wrap, .footer{
+      position: relative;
+      z-index: 1;
     }
   </style>
 </head>
@@ -501,6 +506,7 @@
   </script>
 </body>
 </html>
+
 
 
 
