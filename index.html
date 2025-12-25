@@ -82,9 +82,9 @@
     }
 
     @keyframes floaty{
-      0%   { transform: translate3d(-1.5%, -1.2%, 0) scale(1.03); }
-      50%  { transform: translate3d( 1.2%,  1.0%, 0) scale(1.07); }
-      100% { transform: translate3d(-1.5%, -1.2%, 0) scale(1.03); }
+      0%   { transform: translate3d(calc(-1.5% + var(--mx, 0px)), calc(-1.2% + var(--my, 0px)), 0) scale(1.03); }
+      50%  { transform: translate3d(calc( 1.2% + var(--mx, 0px)), calc( 1.0% + var(--my, 0px)), 0) scale(1.07); }
+      100% { transform: translate3d(calc(-1.5% + var(--mx, 0px)), calc(-1.2% + var(--my, 0px)), 0) scale(1.03); }
     }
 
     .bg-blob.mirror{
@@ -860,6 +860,7 @@
 </body>
 
 </html>
+
 
 
 
