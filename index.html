@@ -782,11 +782,16 @@
 
     const blob = document.querySelector('.bg-blob');
     let raf = null;
+
     window.addEventListener('mousemove', (e) => {
       if (raf) return;
       raf = requestAnimationFrame(() => {
         const x = (e.clientX / window.innerWidth) * 2 - 1;
         const y = (e.clientY / window.innerHeight) * 2 - 1;
+
+        blob.style.setProperty('--mx', `${x * 14}px`);
+        blob.style.setProperty('--my', `${y * 10}px`);
+
         raf = null;
       });
     }, { passive: true });
@@ -860,6 +865,7 @@
 </body>
 
 </html>
+
 
 
 
