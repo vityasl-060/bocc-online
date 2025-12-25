@@ -143,10 +143,13 @@
     .wrap{
       width: min(var(--max), calc(100% - 40px));
       margin: 18px auto 34px;
+
       display:grid;
       grid-template-columns: 1fr;
       gap: 14px;
-      min-height: 70vh;
+
+      flex: 1;     /* ✅ займає весь вільний простір, якщо оферів мало */
+      min-height: 0; /* ✅ не робить “хвіст” */
     }
 
     .state{
@@ -529,6 +532,7 @@
   </script>
 </body>
 </html>
+
 
 
 
