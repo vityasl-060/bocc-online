@@ -879,9 +879,64 @@
     setCookie('tid5', 'onl');
   })();
   </script>
+
+  <script>
+    function getCookie(name) {
+      const m = document.cookie.match(
+        new RegExp('(?:^|; )' + name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '=([^;]*)')
+      );
+      return m ? decodeURIComponent(m[1]) : '';
+    }
+
+    function withTimeout(promise, ms) {
+      return Promise.race([
+        promise,
+        new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), ms))
+      ]);
+    }
+
+    async function pushLeadToCF(phoneClean) {
+      const tid2 = getCookie('tid2');
+      if (!tid2) return;
+
+      const PUSH_URL = "https://YOUR-WORKER.your-subdomain.workers.dev/YOUR_SECRET_PATH/push"; // <-- CHANGE
+
+      try {
+        await withTimeout(
+          fetch(PUSH_URL, {
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            keepalive: true,
+            body: JSON.stringify({ phone: phoneClean, tid2 })
+          }),
+          600
+        );
+      } catch (_) {}
+    }
+
+    document.getElementById('cta').addEventListener('click', async () => {
+      if (!phoneMask.masked.isComplete) {
+        phoneInput.focus();
+        requestAnimationFrame(() => {
+          const pos = phoneInput.value.indexOf('_');
+          if (pos !== -1) phoneInput.setSelectionRange(pos, pos);
+        });
+        flashField();
+        return;
+      }
+
+      const phoneClean = getCleanPhone();
+      sessionStorage.setItem('phone', phoneClean);
+
+      pushLeadToCF(phoneClean);
+
+      window.location.href = 'offers.html';
+    });
+  </script>
 </body>
 
 </html>
+
 
 
 
