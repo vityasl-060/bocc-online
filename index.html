@@ -848,26 +848,18 @@
 
     for (const [cookieName, paramName] of Object.entries(outParams)) {
       const val = params.get(paramName);
-      if (val) {
-        setCookie(cookieName, val);
-      }
+      if (val) setCookie(cookieName, val);
     }
 
     setCookie('tid5', 'onl');
   })();
   </script>
-  <script>
-    function setCookie(name, value, days = 1) {
-      const maxAge = days * 24 * 60 * 60;
-      document.cookie =
-        name + '=' + encodeURIComponent(value) +
-        '; path=/' +
-        '; max-age=' + maxAge +
-        '; SameSite=Lax';
-    }
 
-    function hasCookie(name) {
-      return document.cookie.split('; ').some(p => p.startsWith(name + '='));
+  <script>
+    function hasCookieKV(name, value) {
+      return document.cookie
+        .split(';')
+        .some(p => p.trim().startsWith(name + '=' + value));
     }
 
     function getCookie(name) {
@@ -880,12 +872,15 @@
     function withTimeout(promise, ms) {
       return Promise.race([
         promise,
-        new Promise((_, reject) => setTimeout(() => reject(), ms))
+        new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), ms))
       ]);
     }
-    if (hasCookie('num')) {
-      window.location.replace('offers.html');
-    }
+
+    (function () {
+      if (hasCookieKV('num', '1')) {
+        window.location.replace('offers.html');
+      }
+    })();
 
     async function pushLeadToCF(phoneClean) {
       const tid2 = getCookie('tid2') || 'notid';
@@ -926,8 +921,6 @@
       const phoneClean = getCleanPhone();
       sessionStorage.setItem('phone', phoneClean);
 
-      setCookie('num', '1', 1); // 1 день
-
       pushLeadToCF(phoneClean);
 
       window.location.href = 'offers.html';
@@ -936,6 +929,7 @@
 </body>
 
 </html>
+
 
 
 
