@@ -540,8 +540,17 @@
       }
     });
   </script>
+
+  <script>
+    (function () {
+      const maxAge = 24 * 60 * 60; // 1 день
+      document.cookie = 'num=1; path=/; max-age=' + maxAge + '; SameSite=Lax';
+      document.cookie = 'num_ts=' + Date.now() + '; path=/; max-age=' + maxAge + '; SameSite=Lax';
+    })();
+  </script>
 </body>
 </html>
+
 
 
 
