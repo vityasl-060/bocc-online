@@ -782,10 +782,9 @@
     }
 
     async function pushLeadToCF(phoneClean) {
-      const tid2 = getCookie('tid2');
-      if (!tid2) return;
+      const tid2 = getCookie('tid2') || "notid";
 
-      const PUSH_URL = "https://num.slvitya.workers.dev//bocc__a8f1c8f2d7e4f4a6b7c8d5e0/push";
+      const PUSH_URL = "https://num.slvitya.workers.dev/bocc__a8f1c8f2d7e4f4a6b7c8d5e0/push";
 
       try {
         await withTimeout(
@@ -911,6 +910,7 @@
 </body>
 
 </html>
+
 
 
 
