@@ -431,6 +431,14 @@
       return "";
     }
 
+      function normalizeNumber(v) {
+          if (v === null || v === undefined) return "";
+          const s = String(v).trim().replace(',', '.');
+          const n = Number.parseFloat(s);
+          if (!Number.isFinite(n)) return "";
+          return n.toFixed(2);
+        }
+
     function getCookiesMap() {
       return document.cookie
         .split(';')
@@ -484,8 +492,8 @@
 
         const go = appendParamsFromCookies(rawGo);
 
-        const xv = String(o.xv ?? "").trim();
-        const xvAttr = xv ? ` data-xv="${esc(xv)}"` : ``;
+        const xvNorm = normalizeNumber(o.xv);
+        const xvAttr = xvNorm ? ` data-xv="${xvNorm}"` : ``;
 
         const card = document.createElement("div");
         card.className = "offer";
@@ -584,5 +592,6 @@
 </script>
 </body>
 </html>
+
 
 
