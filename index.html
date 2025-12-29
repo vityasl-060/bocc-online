@@ -368,7 +368,6 @@
       background: rgba(238,241,255,.35);
     }
 
-    /* Right card: minimal, but classy */
     .sideTitle{
       display:flex;
       align-items:center;
@@ -432,7 +431,6 @@
     }
     .footer a:hover{ color: rgba(238,241,255,.82); }
 
-    /* tiny shimmer on card edges */
     .sheen{
       position:absolute;
       inset:0;
@@ -568,7 +566,6 @@
     .bg-layer{
       position: fixed;
 
-      /* ✅ робимо “запас” навколо екрану, щоб blur не обрізався */
       top: -30vh;
       left: -20vw;
       width: 140vw;
@@ -584,6 +581,51 @@
     .topbar, .wrap, .footer{
       position: relative;
       z-index: 1;
+    }
+
+    .consent {
+      margin-top: 14px;
+      font-size: 12.5px;
+      color: rgba(238,241,255,.65);
+    }
+
+    .consent-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: default;
+      user-select: none;
+    }
+
+    .consent-label input {
+      display: none;
+    }
+
+    .checkmark {
+      width: 16px;
+      height: 16px;
+      border-radius: 4px;
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.25);
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .consent-label input:checked + .checkmark::after {
+      content: "";
+      position: absolute;
+      left: 4px;
+      top: 1px;
+      width: 5px;
+      height: 9px;
+      border: solid rgba(255,255,255,.55);
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+    }
+
+    .consent-text {
+      line-height: 1.35;
+      opacity: .85;
     }
   </style>
 </head>
@@ -952,6 +994,7 @@
 </body>
 
 </html>
+
 
 
 
