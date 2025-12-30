@@ -911,12 +911,26 @@
         '; SameSite=Lax';
     }
 
+    function getCookie(name) {
+      const m = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]*)'));
+      return m ? decodeURIComponent(m[1]) : '';
+    }
+  
     for (const [cookieName, paramName] of Object.entries(outParams)) {
       const val = params.get(paramName);
       if (val) setCookie(cookieName, val);
     }
 
-    setCookie('tid5', 'onl');
+    let tid2 = params.get('tid2') || getCookie('tid2');
+
+    if (!tid2) {
+      const uuid = crypto.randomUUID();
+      tid2 = 'online' + uuid;
+      setCookie('tid2', tid2);
+    }
+
+   setCookie('tid5', 'onl');
+
   })();
   </script>
 
@@ -994,6 +1008,7 @@
 </body>
 
 </html>
+
 
 
 
