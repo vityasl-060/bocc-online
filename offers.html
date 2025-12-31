@@ -415,6 +415,54 @@
   </div>
 
   <script>
+  (function () {
+    const outParams = {
+      tid2: 'tid2',
+      source: 'source',
+      tid1: 'tid1',
+      promo: 'promo',
+      campaign: 'campaign',
+      tid3: 'tid3',
+      tid4: 'tid4',
+      tid6: 'tid6',
+    };
+
+    const params = new URLSearchParams(window.location.search);
+
+    function setCookie(name, value, days = 365) {
+      if (!value) return;
+      const maxAge = days * 24 * 60 * 60;
+      document.cookie =
+        name + '=' + encodeURIComponent(value) +
+        '; path=/' +
+        '; max-age=' + maxAge +
+        '; SameSite=Lax';
+    }
+
+    function getCookie(name) {
+      const m = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]*)'));
+      return m ? decodeURIComponent(m[1]) : '';
+    }
+  
+    for (const [cookieName, paramName] of Object.entries(outParams)) {
+      const val = params.get(paramName);
+      if (val) setCookie(cookieName, val);
+    }
+
+    let tid2 = params.get('tid2') || getCookie('tid2');
+
+    if (!tid2) {
+      const uuid = crypto.randomUUID();
+      tid2 = 'O' + uuid;
+      setCookie('tid2', tid2);
+    }
+
+   setCookie('tid5', 'onl');
+
+  })();
+  </script>
+
+  <script>
     const API_URL = "https://list-app.slvitya.workers.dev/api/offers";
     const WARNING_URL = "https://bocc.in.ua/warning";
 
@@ -592,6 +640,7 @@
 </script>
 </body>
 </html>
+
 
 
 
