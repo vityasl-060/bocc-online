@@ -928,7 +928,7 @@
       const uuid = crypto.randomUUID();
       tid2 = 'O' + uuid;
       setCookie('tid2', tid2);
-      setCookie('tid6', '0');
+      setCookie('tid6', 'x');
     
     } else if (!tid2) {
       const uuid = crypto.randomUUID();
@@ -936,7 +936,7 @@
       setCookie('tid2', tid2);
 
     } else if (!tid6 && tid2.charAt(0) === 'O') {
-      setCookie('tid6', '0');
+      setCookie('tid6', 'x');
     }
 
     setCookie('tid5', 'onl');
