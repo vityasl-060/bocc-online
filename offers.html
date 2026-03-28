@@ -450,14 +450,21 @@
     }
 
     let tid2 = params.get('tid2') || getCookie('tid2');
+    let tid6 = params.get('tid6') || getCookie('tid6');
 
-    if (!tid2) {
+    if (!tid2 && !tid6) {
+      const uuid = crypto.randomUUID();
+      tid2 = 'O' + uuid;
+      setCookie('tid2', tid2);
+      setCookie('tid6', '0');
+    
+    } else if (!tid2) {
       const uuid = crypto.randomUUID();
       tid2 = 'O' + uuid;
       setCookie('tid2', tid2);
     }
 
-   setCookie('tid5', 'onl');
+    setCookie('tid5', 'onl');
 
   })();
   </script>
